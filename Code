@@ -1,0 +1,550 @@
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+local Window = Library.CreateLib("Tonware", "Midnight")
+
+if game.PlaceId == 10583817431 then
+	--MAIN
+	local Main = Window:NewTab("AutoFarm")
+	local MainSection = Main:NewSection("AutoFarm Cups")
+
+
+	MainSection:NewButton("Main AutoFarm", "Press X to start/stop", function()
+		local UserInputService = game:GetService("UserInputService");
+		local Players = game:GetService("Players");
+		local Player = Players.LocalPlayer;
+
+		local Locations = {
+			CFrame.new(-154.62, 48.9392, -108.75);
+			CFrame.new(-71.42, 48.9392, -109.537);
+			CFrame.new(-385.817, 48.9392, -235.4);
+			CFrame.new(23.4467, 48.9392, -229.74);
+			CFrame.new(-83.5211, 55.7658, -374.2);
+			CFrame.new(101.062, 48.9392, -435.63);
+			CFrame.new(-373.106, 48.9392, -488.4);
+			CFrame.new(-186.039, 48.9392, -488.4);
+			CFrame.new(-431.342, 28.561, -568.40);
+			CFrame.new(-331.896, 49.9392, -559.1);
+			CFrame.new(112.199, 8.12675, -601.32);
+
+		};
+
+		local function TeleportTo(Table)
+			for _, Location in pairs(Table) do
+				if (_G.On == false) then return; end;
+				wait();
+				Player.Character.PrimaryPart.CFrame = Location;
+			end;
+		end;
+
+		if (_G.ExecutionLayer) then _G.ExecutionLayer = _G.ExecutionLayer + 1; end;
+		if (_G.EventConnection) then _G.EventConnection:Disconnect(); end;
+		local Start = _G.ExecutionLayer;
+
+		_G.On = false;
+		_G.EventConnection = UserInputService.InputEnded:Connect(function(Input)
+			if (Input.KeyCode == Enum.KeyCode.X) then _G.On = not _G.On; end;
+		end)
+
+		while (_G.ExecutionLayer == Start) do wait();
+			if (_G.On) then TeleportTo(Locations); end;
+		end;
+	end)
+
+	MainSection:NewButton("Secondary AutoFarm", "Grabs every cup!", function()
+		_G.Toggle = true
+
+		local Folder = workspace.BossFolder -- path to folder here
+
+		while _G.Toggle do
+			wait(1)
+			for i, v in pairs(game:GetService("Workspace")["CupsFolder"]:GetDescendants()) do
+					if v:IsA("TouchTransmitter") and not v:IsDescendantOf(Folder) then
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+					wait()
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+				end
+			end
+		end
+	end)
+
+	--Player
+	local Player = Window:NewTab("Player")
+	local PlayerSection = Player:NewSection("Movement")
+
+	PlayerSection:NewButton("Walk Speed", "Changes your walk speed", function()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 300
+	end)
+
+	PlayerSection:NewButton("Jump Power", "Changes your jump power", function()
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 300
+	end)
+
+	PlayerSection:NewButton("Flight", "Lets You Fly", function()
+		repeat wait()
+		until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+
+		local mouse = game.Players.LocalPlayer:GetMouse()
+		repeat wait() until mouse
+		local plr = game.Players.LocalPlayer
+		local torso = plr.Character.Torso
+		local flying = true
+		local deb = true
+		local ctrl = {f = 0, b = 0, l = 0, r = 0}
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+		local maxspeed = 50	
+		local speed = 0
+
+		function Fly()
+			local bg = Instance.new("BodyGyro", torso)
+			bg.P = 9e4
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+			bg.cframe = torso.CFrame
+			local bv = Instance.new("BodyVelocity", torso)
+			bv.velocity = Vector3.new(0,0.1,0)
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+			repeat wait()
+				plr.Character.Humanoid.PlatformStand = true
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+					speed = speed+.5+(speed/maxspeed)
+					if speed > maxspeed then
+						speed = maxspeed
+					end
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+					speed = speed-1
+					if speed < 0 then
+						speed = 0
+					end
+				end
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+				else
+					bv.velocity = Vector3.new(0,0.1,0)
+				end
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+			until not flying
+			ctrl = {f = 0, b = 0, l = 0, r = 0}
+			lastctrl = {f = 0, b = 0, l = 0, r = 0}
+			speed = 0
+			bg:Destroy()
+			bv:Destroy()
+			plr.Character.Humanoid.PlatformStand = false
+		end
+		mouse.KeyDown:connect(function(key)
+			if key:lower() == "e" then
+				if flying then flying = false
+				else
+					flying = true
+					Fly()
+				end
+			elseif key:lower() == "w" then
+				ctrl.f = 1
+			elseif key:lower() == "s" then
+				ctrl.b = -1
+			elseif key:lower() == "a" then
+				ctrl.l = -1
+			elseif key:lower() == "d" then
+				ctrl.r = 1
+			end
+		end)
+		mouse.KeyUp:connect(function(key)
+			if key:lower() == "w" then
+				ctrl.f = 0
+			elseif key:lower() == "s" then
+				ctrl.b = 0
+			elseif key:lower() == "a" then
+				ctrl.l = 0
+			elseif key:lower() == "d" then
+				ctrl.r = 0
+			end
+		end)
+		Fly()
+
+	end)
+
+	--KILL BOSSES
+
+	local Bosses = Window:NewTab("Bosses")
+	local BossesSection = Bosses:NewSection("Kill Bosses")
+
+	BossesSection:NewButton("Kill A Troll", "Kills 1 troll", function()
+		game:getService("Workspace")["BossFolder"]["Troll"].Humanoid.Health = 0
+	end)
+
+	BossesSection:NewButton("Kill A Crazed Trollge", "Kills 1 crazed trollge", function()
+		game:getService("Workspace")["BossFolder"]["Crazed Trollge"].Humanoid.Health = 0
+	end)
+
+	BossesSection:NewButton("Kill A Trollge", "Kills 1 trollge", function()
+		game:getService("Workspace")["BossFolder"]["Trollge"].Humanoid.Health = 0
+	end)
+
+	--EXTRA
+
+	local Extra = Window:NewTab("Extra")
+	local ExtraSection = Extra:NewSection("Extra Stuff")
+
+	ExtraSection:NewButton("Anti-AFK", "Stops you getting kicked for being AFK", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/KHZ8pYx9", true))()
+	end)
+
+	ExtraSection:NewButton("OpenGUI", "Executes open GUI", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/UXmbai5q", true))()
+	end)
+
+	--CREDITS
+
+	local Credits = Window:NewTab("Credits")
+	local CreditsSection = Credits:NewSection("The Credits")
+
+	CreditsSection:NewButton("Made by Joy#0495", "Nothing to explain", function(txt)
+		setclipboard("Joy#0495")
+	end)
+
+	CreditsSection:NewButton("The Discord Server", "Copys the discord link to your clipboard", function(txt)
+		setclipboard("https://discord.gg/6zwMpEPvPs")
+	end)
+
+
+	--EXPERIMENTAL
+
+	local Experimental = Window:NewTab("Experimental")
+	local ExperimentalSection = Experimental:NewSection("Experimental Features")
+
+	ExperimentalSection:NewButton("Nothing here for now", "aint nothing here", function()
+		print("NOTHING")
+	end)
+elseif game.PlaceId == 8360240897 then
+	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+	local Window = Library.CreateLib("Tonware", "Midnight")
+
+	--MAIN
+	local Main = Window:NewTab("AutoFarm")
+	local MainSection = Main:NewSection("AutoFarm Cups")
+
+
+	MainSection:NewButton("Main AutoFarm", "Grabs every cup!", function()
+        _G.Toggle = true
+
+		local Folder = workspace.Game.Npc 
+
+		while _G.Toggle do
+			wait(1)
+			for i, v in pairs(game:GetService("Workspace")["Game"]["Spawn"]:GetDescendants()) do
+					if v:IsA("TouchTransmitter") and not v:IsDescendantOf(Folder) then
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
+					wait()
+					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
+				end
+			end
+		end
+	end)
+
+	--Player
+	local Player = Window:NewTab("Player")
+	local PlayerSection = Player:NewSection("Movement")
+
+	PlayerSection:NewButton("Walk Speed", "Changes your walk speed", function()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 300
+	end)
+
+	PlayerSection:NewButton("Jump Power", "Changes your jump power", function()
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 300
+	end)
+
+	PlayerSection:NewButton("Flight", "Lets You Fly", function()
+		repeat wait()
+		until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+
+		local mouse = game.Players.LocalPlayer:GetMouse()
+		repeat wait() until mouse
+		local plr = game.Players.LocalPlayer
+		local torso = plr.Character.Torso
+		local flying = true
+		local deb = true
+		local ctrl = {f = 0, b = 0, l = 0, r = 0}
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+		local maxspeed = 50	
+		local speed = 0
+
+		function Fly()
+			local bg = Instance.new("BodyGyro", torso)
+			bg.P = 9e4
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+			bg.cframe = torso.CFrame
+			local bv = Instance.new("BodyVelocity", torso)
+			bv.velocity = Vector3.new(0,0.1,0)
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+			repeat wait()
+				plr.Character.Humanoid.PlatformStand = true
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+					speed = speed+.5+(speed/maxspeed)
+					if speed > maxspeed then
+						speed = maxspeed
+					end
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+					speed = speed-1
+					if speed < 0 then
+						speed = 0
+					end
+				end
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+				else
+					bv.velocity = Vector3.new(0,0.1,0)
+				end
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+			until not flying
+			ctrl = {f = 0, b = 0, l = 0, r = 0}
+			lastctrl = {f = 0, b = 0, l = 0, r = 0}
+			speed = 0
+			bg:Destroy()
+			bv:Destroy()
+			plr.Character.Humanoid.PlatformStand = false
+		end
+		mouse.KeyDown:connect(function(key)
+			if key:lower() == "e" then
+				if flying then flying = false
+				else
+					flying = true
+					Fly()
+				end
+			elseif key:lower() == "w" then
+				ctrl.f = 1
+			elseif key:lower() == "s" then
+				ctrl.b = -1
+			elseif key:lower() == "a" then
+				ctrl.l = -1
+			elseif key:lower() == "d" then
+				ctrl.r = 1
+			end
+		end)
+		mouse.KeyUp:connect(function(key)
+			if key:lower() == "w" then
+				ctrl.f = 0
+			elseif key:lower() == "s" then
+				ctrl.b = 0
+			elseif key:lower() == "a" then
+				ctrl.l = 0
+			elseif key:lower() == "d" then
+				ctrl.r = 0
+			end
+		end)
+		Fly()
+
+	end)
+
+	--EXTRA
+
+	local Extra = Window:NewTab("Extra")
+	local ExtraSection = Extra:NewSection("Extra Stuff")
+
+	ExtraSection:NewButton("Anti-AFK", "Stops you getting kicked for being AFK", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/KHZ8pYx9", true))()
+	end)
+
+	ExtraSection:NewButton("OpenGUI", "Executes open GUI", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/UXmbai5q", true))()
+	end)
+
+	--CREDITS
+
+	local Credits = Window:NewTab("Credits")
+	local CreditsSection = Credits:NewSection("The Credits")
+
+	CreditsSection:NewButton("Made by Joy#0495", "Nothing to explain", function(txt)
+		setclipboard("Joy#0495")
+	end)
+
+    CreditsSection:NewButton("The Discord Server", "Copys the discord link to your clipboard", function(txt)
+		setclipboard("https://discord.gg/6zwMpEPvPs")
+	end)
+
+
+	--EXPERIMENTAL
+
+	local Experimental = Window:NewTab("Experimental")
+	local ExperimentalSection = Experimental:NewSection("Experimental Features")
+
+	ExperimentalSection:NewButton("Nothing here for now", "aint nothing here", function()
+		print("NOTHING")
+	end)
+elseif game.PlaceId == 9216815133 then
+	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+	local Window = Library.CreateLib("Tonware", "Midnight")
+
+	--MAIN
+	local Main = Window:NewTab("AutoFarm")
+	local MainSection = Main:NewSection("AutoFarm Cups")
+
+	MainSection:NewToggle("Main AutoFarm", "AutoFarms Chests", function(state)
+		if state then
+			getgenv().ChestFarm = true --Change to false to turn off sped
+
+			spawn(function()
+    			while ChestFarm do wait()
+        			pcall(function()
+           				 for i,v in pairs(game:GetService("Workspace").chests:GetDescendants()) do
+                			if v:IsA("Part") then
+                    			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                    			fireproximityprompt(v.ProximityPrompt)
+                			end
+            			end
+       				end)
+    			end
+			end)
+		else
+			getgenv().ChestFarm = false --Change to false to turn off sped
+
+			spawn(function()
+    			while ChestFarm do wait()
+        			pcall(function()
+           				 for i,v in pairs(game:GetService("Workspace").chests:GetDescendants()) do
+                			if v:IsA("Part") then
+                    			game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.CFrame
+                    			fireproximityprompt(v.ProximityPrompt)
+                			end
+            			end
+       				end)
+    			end
+			end)
+		end
+	end)
+
+	--Player
+	local Player = Window:NewTab("Player")
+	local PlayerSection = Player:NewSection("Movement")
+
+	PlayerSection:NewButton("Walk Speed", "Changes your walk speed", function()
+		game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = 300
+	end)
+
+	PlayerSection:NewButton("Jump Power", "Changes your jump power", function()
+		game.Players.LocalPlayer.Character.Humanoid.JumpPower = 300
+	end)
+
+	PlayerSection:NewButton("Flight", "Lets You Fly", function()
+		repeat wait()
+		until game.Players.LocalPlayer and game.Players.LocalPlayer.Character and game.Players.LocalPlayer.Character:findFirstChild("Torso") and game.Players.LocalPlayer.Character:findFirstChild("Humanoid")
+
+		local mouse = game.Players.LocalPlayer:GetMouse()
+		repeat wait() until mouse
+		local plr = game.Players.LocalPlayer
+		local torso = plr.Character.Torso
+		local flying = true
+		local deb = true
+		local ctrl = {f = 0, b = 0, l = 0, r = 0}
+		local lastctrl = {f = 0, b = 0, l = 0, r = 0}
+		local maxspeed = 50	
+		local speed = 0
+
+		function Fly()
+			local bg = Instance.new("BodyGyro", torso)
+			bg.P = 9e4
+			bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+			bg.cframe = torso.CFrame
+			local bv = Instance.new("BodyVelocity", torso)
+			bv.velocity = Vector3.new(0,0.1,0)
+			bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+			repeat wait()
+				plr.Character.Humanoid.PlatformStand = true
+				if ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0 then
+					speed = speed+.5+(speed/maxspeed)
+					if speed > maxspeed then
+						speed = maxspeed
+					end
+				elseif not (ctrl.l + ctrl.r ~= 0 or ctrl.f + ctrl.b ~= 0) and speed ~= 0 then
+					speed = speed-1
+					if speed < 0 then
+						speed = 0
+					end
+				end
+				if (ctrl.l + ctrl.r) ~= 0 or (ctrl.f + ctrl.b) ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (ctrl.f+ctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(ctrl.l+ctrl.r,(ctrl.f+ctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+					lastctrl = {f = ctrl.f, b = ctrl.b, l = ctrl.l, r = ctrl.r}
+				elseif (ctrl.l + ctrl.r) == 0 and (ctrl.f + ctrl.b) == 0 and speed ~= 0 then
+					bv.velocity = ((game.Workspace.CurrentCamera.CoordinateFrame.lookVector * (lastctrl.f+lastctrl.b)) + ((game.Workspace.CurrentCamera.CoordinateFrame * CFrame.new(lastctrl.l+lastctrl.r,(lastctrl.f+lastctrl.b)*.2,0).p) - game.Workspace.CurrentCamera.CoordinateFrame.p))*speed
+				else
+					bv.velocity = Vector3.new(0,0.1,0)
+				end
+				bg.cframe = game.Workspace.CurrentCamera.CoordinateFrame * CFrame.Angles(-math.rad((ctrl.f+ctrl.b)*50*speed/maxspeed),0,0)
+			until not flying
+			ctrl = {f = 0, b = 0, l = 0, r = 0}
+			lastctrl = {f = 0, b = 0, l = 0, r = 0}
+			speed = 0
+			bg:Destroy()
+			bv:Destroy()
+			plr.Character.Humanoid.PlatformStand = false
+		end
+		mouse.KeyDown:connect(function(key)
+			if key:lower() == "e" then
+				if flying then flying = false
+				else
+					flying = true
+					Fly()
+				end
+			elseif key:lower() == "w" then
+				ctrl.f = 1
+			elseif key:lower() == "s" then
+				ctrl.b = -1
+			elseif key:lower() == "a" then
+				ctrl.l = -1
+			elseif key:lower() == "d" then
+				ctrl.r = 1
+			end
+		end)
+		mouse.KeyUp:connect(function(key)
+			if key:lower() == "w" then
+				ctrl.f = 0
+			elseif key:lower() == "s" then
+				ctrl.b = 0
+			elseif key:lower() == "a" then
+				ctrl.l = 0
+			elseif key:lower() == "d" then
+				ctrl.r = 0
+			end
+		end)
+		Fly()
+
+	end)
+
+	--EXTRA
+
+	local Extra = Window:NewTab("Extra")
+	local ExtraSection = Extra:NewSection("Extra Stuff")
+
+	ExtraSection:NewButton("Anti-AFK", "Stops you getting kicked for being AFK", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/KHZ8pYx9", true))()
+	end)
+
+	ExtraSection:NewButton("OpenGUI", "Executes open GUI", function()
+		loadstring(game:HttpGet("https://pastebin.com/raw/UXmbai5q", true))()
+	end)
+
+	--CREDITS
+
+	local Credits = Window:NewTab("Credits")
+	local CreditsSection = Credits:NewSection("The Credits")
+
+	CreditsSection:NewButton("Made by Joy#0495", "Nothing to explain", function(txt)
+		setclipboard("Joy#0495")
+	end)
+
+    CreditsSection:NewButton("The Discord Server", "Copys the discord link to your clipboard", function(txt)
+		setclipboard("https://discord.gg/6zwMpEPvPs")
+	end)
+
+
+	--EXPERIMENTAL
+
+	local Experimental = Window:NewTab("Experimental")
+	local ExperimentalSection = Experimental:NewSection("Experimental Features")
+
+	ExperimentalSection:NewButton("Nothing here for now", "aint nothing here", function()
+		print("NOTHING")
+	end)
+end
