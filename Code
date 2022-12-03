@@ -1,6 +1,8 @@
-if game.PlaceId == 10583817431 then	
+if game.PlaceId == 10583817431 then
 	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 	local Window = Library.CreateLib("Tonware", "Midnight")
+
+
 	--MAIN
 	local Main = Window:NewTab("AutoFarm")
 	local MainSection = Main:NewSection("AutoFarm Cups")
@@ -335,6 +337,15 @@ elseif game.PlaceId == 9708645998 then
 		end)
 		Fly()
 
+	end)
+
+	--Items
+
+	local Items = Window:NewTab("Items")
+	local ItemsSection = Items:NewSection("Give Items")
+
+	ItemsSection:NewButton("Dev Cup Giver", "Literally Gives You A Dev Cup", function()
+		game.ReplicatedStorage["Christmas Event"]["Remote Events"].Handler:FireServer()
 	end)
 
 	--EXTRA
