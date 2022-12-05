@@ -352,7 +352,7 @@ elseif game.PlaceId == 9708645998 then
 		game.ReplicatedStorage.Panel.Handler2:FireServer()
 	end)
 
-	ItemsSection:NewButton("Tek Custard Giver", "Literally Gives You A Tek Custard", function()
+	ItemsSection:NewButton("Tekina Cup Giver", "Literally Gives You A Tekina Cup", function()
 		game.ReplicatedStorage.Panel.Handler3:FireServer()
 	end)
 
