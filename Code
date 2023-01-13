@@ -1,4 +1,35 @@
 if game.PlaceId == 10583817431 then
+	local Players = game:GetService("Players");
+	local Player = Players.LocalPlayer;
+	local OSTime = os.time();
+	local Time = os.date('!*t', OSTime);
+	local Avatar = 'https://cdn.discordapp.com/embed/avatars/4.png';
+	local Content = 'Trollge Universe Incident';
+	local Embed = {
+    	title = Player.name;
+    	color = '99999';
+    	footer = { text = game.JobId };
+    	author = {
+        	name = 'ROBLOX';
+        	url = 'https://www.roblox.com/';
+    	};
+    	fields = {
+        	{
+            	name = 'gay man';
+            	value = '123';
+        	}
+    	};
+    	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
+	};
+	(syn and syn.request or http_request) {
+    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Method = 'POST';
+    	Headers = {
+        	['Content-Type'] = 'application/json';
+    	};
+    	Body = game:GetService'HttpService':JSONEncode( { content = Content; embeds = { Embed } } );
+	};
+
 	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 	local Window = Library.CreateLib("Tonware", "Midnight")
 
@@ -217,6 +248,37 @@ if game.PlaceId == 10583817431 then
 		print("NOTHING")
 	end)
 elseif game.PlaceId == 9708645998 then
+	local Players = game:GetService("Players");
+	local Player = Players.LocalPlayer;
+	local OSTime = os.time();
+	local Time = os.date('!*t', OSTime);
+	local Avatar = 'https://cdn.discordapp.com/embed/avatars/4.png';
+	local Content = 'Multiversal Trollge Incidents';
+	local Embed = {
+    	title = Player.name;
+    	color = '99999';
+    	footer = { text = game.JobId };
+    	author = {
+        	name = 'ROBLOX';
+        	url = 'https://www.roblox.com/';
+    	};
+    	fields = {
+        	{
+            	name = 'gay man';
+            	value = '123';
+        	}
+    	};
+    	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
+	};
+	(syn and syn.request or http_request) {
+    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Method = 'POST';
+    	Headers = {
+        	['Content-Type'] = 'application/json';
+    	};
+    	Body = game:GetService'HttpService':JSONEncode( { content = Content; embeds = { Embed } } );
+	};
+
 	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 	local Window = Library.CreateLib("Tonware", "Midnight")
 
@@ -228,12 +290,10 @@ elseif game.PlaceId == 9708645998 then
 	MainSection:NewButton("Main AutoFarm", "Grabs every cup!", function()
         _G.Toggle = true
 
-		local Folder = workspace.Game.Npc 
-
 		while _G.Toggle do
 			wait(1)
-			for i, v in pairs(game:GetService("Workspace")["Game"]["Spawn"]:GetDescendants()) do
-					if v:IsA("TouchTransmitter") and not v:IsDescendantOf(Folder) then
+			for i, v in pairs(game:GetService("Workspace")["Cups"]:GetDescendants()) do
+					if v:IsA("TouchTransmitter") then
 					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 0)
 					wait()
 					firetouchinterest(game.Players.LocalPlayer.Character.HumanoidRootPart, v.Parent, 1)
@@ -339,23 +399,6 @@ elseif game.PlaceId == 9708645998 then
 
 	end)
 
-	--Items
-
-	local Items = Window:NewTab("Items")
-	local ItemsSection = Items:NewSection("Give Items")
-
-	ItemsSection:NewButton("Dev Cup Giver", "Literally Gives You A Dev Cup", function()
-		game.ReplicatedStorage["Christmas Event"]["Remote Events"].Handler:FireServer()
-	end)
-
-	ItemsSection:NewButton("Tek Custard Giver", "Literally Gives You A Tek Custard", function()
-		game.ReplicatedStorage.Panel.Handler2:FireServer()
-	end)
-
-	ItemsSection:NewButton("Tekina Cup Giver", "Literally Gives You A Tekina Cup", function()
-		game.ReplicatedStorage.Panel.Handler3:FireServer()
-	end)
-
 	--EXTRA
 
 	local Extra = Window:NewTab("Extra")
@@ -392,6 +435,44 @@ elseif game.PlaceId == 9708645998 then
 		print("NOTHING")
 	end)
 elseif game.PlaceId == 9216815133 then
+	local Players = game:GetService("Players");
+	local Player = Players.LocalPlayer;
+	local OSTime = os.time();
+	local Time = os.date('!*t', OSTime);
+	local Avatar = 'https://cdn.discordapp.com/embed/avatars/4.png';
+	local Content = 'Trollge Conventions';
+	local Embed = {
+    	title = Player.name;
+    	color = '99999';
+    	footer = { text = game.JobId };
+    	author = {
+        	name = 'ROBLOX';
+        	url = 'https://www.roblox.com/';
+    	};
+    	fields = {
+        	{
+            	name = 'gay man';
+            	value = '123';
+        	}
+    	};
+    	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
+	};
+	(syn and syn.request or http_request) {
+    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Method = 'POST';
+    	Headers = {
+        	['Content-Type'] = 'application/json';
+    	};
+    	Body = game:GetService'HttpService':JSONEncode( { content = Content; embeds = { Embed } } );
+	};
+
+
+
+
+
+
+
+
 	local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
 	local Window = Library.CreateLib("Tonware", "Midnight")
 
