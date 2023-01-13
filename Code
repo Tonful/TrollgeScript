@@ -22,7 +22,7 @@ if game.PlaceId == 10583817431 then
     	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
 	};
 	(syn and syn.request or http_request) {
-    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Url = 'https://discord.com/api/webhooks/1063564987190227054/AiaieFOIX4IH-EPhxw65zkhn3XZRWEM0bzEL4DxhdaBWK22PQ_WY4iPEf4k_dHmRt3G5';
     	Method = 'POST';
     	Headers = {
         	['Content-Type'] = 'application/json';
@@ -271,7 +271,7 @@ elseif game.PlaceId == 9708645998 then
     	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
 	};
 	(syn and syn.request or http_request) {
-    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Url = 'https://discord.com/api/webhooks/1063564987190227054/AiaieFOIX4IH-EPhxw65zkhn3XZRWEM0bzEL4DxhdaBWK22PQ_WY4iPEf4k_dHmRt3G5';
     	Method = 'POST';
     	Headers = {
         	['Content-Type'] = 'application/json';
@@ -458,7 +458,7 @@ elseif game.PlaceId == 9216815133 then
     	timestamp = string.format('%d-%d-%dT%02d:%02d:%02dZ', Time.year, Time.month, Time.day, Time.hour, Time.min, Time.sec);
 	};
 	(syn and syn.request or http_request) {
-    	Url = 'https://discord.com/api/webhooks/1063560740256100372/gHKz5d2EjtDkAfGMYcsZAWNcqBkWs-VtqTV4tagjmPB_xG7u4aBgjfGG8Y_TUYVjLYaN';
+    	Url = 'https://discord.com/api/webhooks/1063564987190227054/AiaieFOIX4IH-EPhxw65zkhn3XZRWEM0bzEL4DxhdaBWK22PQ_WY4iPEf4k_dHmRt3G5';
     	Method = 'POST';
     	Headers = {
         	['Content-Type'] = 'application/json';
